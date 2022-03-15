@@ -1,0 +1,15 @@
+/* 
+ * card-layout. css 
+ */
+.card-row {
+  display: grid;
+  grid-template-columns: repeat(3, 32%);
+  justify-content: space-between;
+}
+/* 
+.container {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 24px;
+} */

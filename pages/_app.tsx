@@ -1,8 +1,7 @@
-import "../styles/globals.css";
-import type { AppProps } from "next/app";
-import dynamic from "next/dynamic";
+import dynamic from 'next/dynamic';
+import '../styles/globals.css';
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }) {
   return <Component {...pageProps} />;
 }
 
