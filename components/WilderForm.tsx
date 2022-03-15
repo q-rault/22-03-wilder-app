@@ -1,9 +1,9 @@
-import { useState } from "react";
-import styles from "../styles/WilderFormStyles.module.css";
-import { createWilder } from "../api/wilderAPI";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import { useState } from 'react';
+import styles from '../styles/WilderFormStyles.module.css';
+import { createWilder } from '../api/wilderAPI';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 const schema = yup
   .object({
@@ -27,7 +27,7 @@ function AddWilderForm({ handleTrigger }) {
     try {
       const result = await createWilder(wilderName, wilderCity);
       if (result.data.success) {
-        setError("");
+        setError('');
         handleTrigger();
       }
     } catch (error) {
@@ -42,18 +42,26 @@ function AddWilderForm({ handleTrigger }) {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className={styles.form + " container"}
+      className={styles.form + ' container'}
     >
       <label htmlFor="name-input" className={styles.label}>
         Name :
       </label>
-      <input className={styles.input} {...register("wilderName")} />
+      <input
+        className={styles.input}
+        {...register('wilderName')}
+        autoComplete="off"
+      />
       <p>{errors.wilderName?.message}</p>
       <label htmlFor="city-input">City :</label>
-      <input className={styles.input} {...register("wilderCity")} />
+      <input
+        className={styles.input}
+        {...register('wilderCity')}
+        autoComplete="off"
+      />
       <p>{errors.wilderCity?.message}</p>
 
-      {error !== "" && <p>{error}</p>}
+      {error !== '' && <p>{error}</p>}
       <button className={styles.button}>Add</button>
     </form>
   );

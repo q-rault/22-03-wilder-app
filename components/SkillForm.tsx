@@ -1,7 +1,7 @@
-import styles from "../styles/SkillStyles.module.css";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import styles from '../styles/SkillStyles.module.css';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 const schema = yup
   .object()
@@ -19,13 +19,13 @@ const SkillForm = ({ newSkillChange }) => {
     resolver: yupResolver(schema),
   });
   const handleKeyUp = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       handleSubmit(newSkillChange)();
     }
   };
   return (
     <li className={styles.li} onKeyUp={handleKeyUp}>
-      <input {...register("newSkill")} />
+      <input {...register('newSkill')} autoComplete="off" />
     </li>
   );
 };
