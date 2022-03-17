@@ -44,7 +44,7 @@ export const updateWilderFromSkills = (
 
 export const replaceAtId = (array: any[], _id: string, modifiedItem?: any) => {
   const clonedArray = [...array];
-  const index = clonedArray.findIndex((wilder: any) => wilder._id === _id);
+  const index = clonedArray.findIndex((item: any) => item._id === _id);
   if (modifiedItem) {
     clonedArray.splice(index, 1, modifiedItem);
   } else {
