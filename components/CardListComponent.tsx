@@ -3,11 +3,9 @@ import styles from '../styles/CardListStyles.module.css';
 
 const CardList = ({
   wilders,
-  handleTrigger,
   setWilders,
 }: {
   wilders: IWilder[];
-  handleTrigger: () => void;
   setWilders: any;
 }) => {
   return (
