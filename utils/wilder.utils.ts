@@ -34,19 +34,19 @@ export const updateWilderFromSkills = (
   skillToUpdate: ISkill,
   increment: number
 ) => {
-  const newSkills = updateSkills(wilder.skills, skillToUpdate, increment);
+  const newSkills = updateSkills(
+    wilder.skills ? wilder.skills : [],
+    skillToUpdate,
+    increment
+  );
   return updateWilder(wilder, newSkills);
 };
 
-export const replaceAtId = (
-  array: any[],
-  _id: string,
-  modifiedWilder?: any
-) => {
+export const replaceAtId = (array: any[], _id: string, modifiedItem?: any) => {
   const clonedArray = [...array];
   const index = clonedArray.findIndex((wilder: any) => wilder._id === _id);
-  if (modifiedWilder) {
-    clonedArray.splice(index, 1, modifiedWilder);
+  if (modifiedItem) {
+    clonedArray.splice(index, 1, modifiedItem);
   } else {
     clonedArray.splice(index, 1);
   }
