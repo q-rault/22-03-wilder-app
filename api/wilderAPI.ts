@@ -1,23 +1,24 @@
-import axios from "axios";
-import apiRequests from "../config/apiRequests.config";
+import axios from 'axios';
+import { IWilder } from '../components/WilderCardComponent';
+import apiRequests from '../config/apiRequests.config';
 
-export const deleteWilder = async (id) => {
+export const deleteWilder = async (id: string) => {
   try {
-    await axios.delete(`${apiRequests.wilderDeleteString}${id}`);
+    return await axios.delete(`${apiRequests.wilderDeleteString}${id}`);
   } catch (err) {
     console.log(err);
   }
 };
 
-export const updateWilder = async (id, wilder) => {
+export const updateWilder = async (id: string, wilder: IWilder) => {
   try {
-    await axios.put(`${apiRequests.wilderUpdateString}${id}`, wilder);
+    return await axios.put(`${apiRequests.wilderUpdateString}${id}`, wilder);
   } catch (err) {
     console.log(err);
   }
 };
 
-export const createWilder = async (name, city) => {
+export const createWilder = async (name: string, city: string) => {
   try {
     return await axios.post(apiRequests.wilderCreateString, {
       name: name,

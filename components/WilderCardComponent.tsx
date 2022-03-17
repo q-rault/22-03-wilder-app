@@ -1,35 +1,56 @@
-import Image from "next/image";
-import blank_profile from "../public/blank_profile_picture.png";
+import Image from 'next/image';
+import blank_profile from '../public/blank_profile_picture.png';
 
-import Skill from "./SkillComponent";
-import styles from "../styles/WilderCardStyles.module.css";
-import InlineButton from "./InlineButtonComponent";
-import { updateWilderFromSkills } from "../utils/wilder.utils";
-import SkillForm from "./SkillForm";
-import { updateWilder, deleteWilder } from "../api/wilderAPI";
+import Skill, { ISkill } from './SkillComponent';
+import styles from '../styles/WilderCardStyles.module.css';
+import InlineButton from './InlineButtonComponent';
+import { replaceAtId, updateWilderFromSkills } from '../utils/wilder.utils';
+import SkillForm from './SkillForm';
+import { updateWilder, deleteWilder } from '../api/wilderAPI';
 
-const WilderCard = ({ wilder, handleTrigger }) => {
+export interface IWilder {
+  city: string;
+  name: string;
+  _id: string;
+  skills?: ISkill[];
+}
+
+export interface IWilderProps {
+  wilder: IWilder;
+  setWilders: any;
+}
+
+const WilderCard = ({ wilder, setWilders }: IWilderProps) => {
   const { name, city, skills } = wilder;
 
-  const handleRemove = async (e) => {
+  const handleRemove = async (): Promise<void> => {
     try {
-      await deleteWilder(wilder._id);
-      handleTrigger();
+      const result = await deleteWilder(wilder._id);
+      if (result?.data?.result?.deletedCount) {
+        setWilders((prevState: IWilder[]) => {
+          return replaceAtId(prevState, wilder._id);
+        });
+      }
     } catch (err) {
       console.log(err);
     }
   };
 
-  const handleWilderUpdate = async (skillToUpdate, increment) => {
+  const handleWilderUpdate = async (
+    skillToUpdate: ISkill,
+    increment: number
+  ): Promise<void> => {
     try {
       const newWilder = updateWilderFromSkills(
         wilder,
         skillToUpdate,
         increment
       );
-      await updateWilder(wilder._id, newWilder);
-      handleTrigger();
-    } catch (err) {
+      const result = await updateWilder(wilder._id, newWilder);
+      setWilders((prevState: IWilder[]) => {
+        return replaceAtId(prevState, wilder._id, result?.data?.updatedWilder);
+      });
+    } catch (err: unknown) {
       console.log(err);
     }
   };
@@ -38,7 +59,7 @@ const WilderCard = ({ wilder, handleTrigger }) => {
     <article className={styles.card}>
       <Image src={blank_profile} alt={`${name}Profile`} />
       <h3>
-        {name} @ {city}{" "}
+        {name} @ {city}{' '}
         <InlineButton handleClick={handleRemove}>&#10005;</InlineButton>
       </h3>
       <p>
@@ -49,18 +70,18 @@ const WilderCard = ({ wilder, handleTrigger }) => {
       </p>
       <h4>Wild Skills</h4>
       <ul className={styles.skills}>
-        {skills.map((skill) => (
+        {skills?.map((skill) => (
           <Skill
             key={skill.title}
             skill={skill}
-            handleMinus={(e) => handleWilderUpdate(skill, -1)}
-            handlePlus={(e) => handleWilderUpdate(skill, +1)}
+            handleMinus={() => handleWilderUpdate(skill, -1)}
+            handlePlus={() => handleWilderUpdate(skill, +1)}
           />
         ))}
         <SkillForm
-          newSkillChange={(data) =>
+          newSkillChange={({ newSkillTitle }: { newSkillTitle: string }) =>
             handleWilderUpdate(
-              { title: data.newSkill.toLowerCase(), votes: 0 },
+              { title: newSkillTitle.toLowerCase(), votes: 0 },
               +1
             )
           }

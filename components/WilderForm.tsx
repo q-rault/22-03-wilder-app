@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import styles from '../styles/WilderFormStyles.module.css';
 import { createWilder } from '../api/wilderAPI';
 import { useForm } from 'react-hook-form';
@@ -12,9 +11,11 @@ const schema = yup
   })
   .required();
 
-function AddWilderForm({ handleTrigger }) {
-  const [error, setError] = useState([]);
+interface IAddWilderFormProps {
+  setWilders: any;
+}
 
+const AddWilderForm = ({ setWilders }: IAddWilderFormProps) => {
   const {
     register,
     handleSubmit,
@@ -22,20 +23,15 @@ function AddWilderForm({ handleTrigger }) {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const onSubmit = async (data) => {
-    const { wilderName, wilderCity } = data;
+  const onSubmit = async (newWilder: any) => {
+    const { wilderName, wilderCity } = newWilder;
     try {
       const result = await createWilder(wilderName, wilderCity);
-      if (result.data.success) {
-        setError('');
-        handleTrigger();
+      if (result?.data?.success) {
+        setWilders((prevState: any) => [...prevState, result.data.result]);
       }
-    } catch (error) {
-      if (error.response) {
-        setError(error.response.data.message);
-      } else {
-        setError(error.message);
-      }
+    } catch (err: any) {
+      console.log(err);
     }
   };
 
@@ -61,10 +57,9 @@ function AddWilderForm({ handleTrigger }) {
       />
       <p>{errors.wilderCity?.message}</p>
 
-      {error !== '' && <p>{error}</p>}
       <button className={styles.button}>Add</button>
     </form>
   );
-}
+};
 
 export default AddWilderForm;

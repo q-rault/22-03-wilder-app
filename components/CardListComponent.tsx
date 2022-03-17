@@ -1,16 +1,24 @@
-import WilderCard from "./WilderCardComponent";
-import styles from "../styles/CardListStyles.module.css";
+import WilderCard, { IWilder } from './WilderCardComponent';
+import styles from '../styles/CardListStyles.module.css';
 
-const CardList = ({ wilders, handleTrigger }) => {
+const CardList = ({
+  wilders,
+  handleTrigger,
+  setWilders,
+}: {
+  wilders: IWilder[];
+  handleTrigger: () => void;
+  setWilders: any;
+}) => {
   return (
-    <main className={styles.container + " container"}>
+    <main className={styles.container + ' container'}>
       <h2>Wilders</h2>
-      <section className={styles["card-row"]}>
+      <section className={styles['card-row']}>
         {wilders.map((wilder) => (
           <WilderCard
             key={wilder.name}
             wilder={wilder}
-            handleTrigger={handleTrigger}
+            setWilders={setWilders}
           />
         ))}
       </section>
