@@ -20,8 +20,13 @@ const AddWilderForm = ({ setWilders }: IAddWilderFormProps) => {
     register,
     handleSubmit,
     formState: { errors },
+    resetField,
   } = useForm({
     resolver: yupResolver(schema),
+    defaultValues: {
+      wilderName: '',
+      wilderCity: '',
+    },
   });
   const onSubmit = async (newWilder: any) => {
     const { wilderName, wilderCity } = newWilder;
@@ -29,6 +34,8 @@ const AddWilderForm = ({ setWilders }: IAddWilderFormProps) => {
       const result = await createWilder(wilderName, wilderCity);
       if (result?.data?.success) {
         setWilders((prevState: any) => [...prevState, result.data.result]);
+        resetField('wilderName');
+        resetField('wilderCity');
       }
     } catch (err: any) {
       console.log(err);

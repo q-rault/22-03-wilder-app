@@ -24,12 +24,17 @@ const SkillForm = ({ newSkillChange }: ISkillFormProps) => {
     register,
     handleSubmit,
     formState: { errors },
+    resetField,
   } = useForm<SkillFormValues>({
     resolver: yupResolver(schema),
+    defaultValues: {
+      newSkillTitle: '',
+    },
   });
   const handleKeyUp = (e: KeyboardEvent<HTMLElement>) => {
     if (e.key === 'Enter') {
       handleSubmit(newSkillChange)();
+      resetField('newSkillTitle');
     }
   };
   return (
