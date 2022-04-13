@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { IWilder } from '../components/WilderCardComponent';
 import apiRequests from '../config/apiRequests.config';
+import config from '../config/config.js'
+
+
 
 export const deleteWilder = async (id: string) => {
   try {

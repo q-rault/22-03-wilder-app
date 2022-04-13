@@ -1,13 +1,13 @@
 import config from "./config";
 
 const {
-  api: { host, port, wilder },
+  api: { url , wilder },
 } = config;
 
 const apiRequests = {
-  wilderCreateString: `http://${host}:${port}/${wilder}create`,
-  wilderReadString: `http://${host}:${port}/${wilder}read`,
-  wilderDeleteString: `http://${host}:${port}/${wilder}delete/`,
-  wilderUpdateString: `http://${host}:${port}/${wilder}update/`,
+  wilderCreateString: `http://${url}/${wilder}create`,
+  wilderReadString: `http://${url}/${wilder}read`,
+  wilderDeleteString: `http://${url}/${wilder}delete/`,
+  wilderUpdateString: `http://${url}/${wilder}update/`,
 };
 export default apiRequests;

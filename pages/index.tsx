@@ -1,9 +1,41 @@
 import { useEffect, useState } from 'react';
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  useQuery,
+  gql,
+} from '@apollo/client';
 import AddWilderForm from '../components/WilderForm';
 import CardList from '../components/CardListComponent';
 import { readWilders } from '../api/wilderAPI';
 import { NextPage } from 'next';
 import { IWilder } from '../components/WilderCardComponent';
+import config from '../config/config';
+
+const client = new ApolloClient({
+  uri: config.api.url,
+  cache: new InMemoryCache(),
+});
+
+client
+  .query({
+    query: gql`
+      query Query {
+        getAllWilders {
+          _id
+          name
+          city
+          skills {
+            _id
+            title
+            votes
+          }
+        }
+      }
+    `,
+  })
+  .then((result) => console.log(result));
 
 const Home: NextPage = () => {
   const [wilders, setWilders] = useState<IWilder[]>([]);
@@ -20,7 +52,7 @@ const Home: NextPage = () => {
   }, []);
 
   return (
-    <div>
+    <ApolloProvider client={client}>
       <header>
         <div className="container">
           <h1>Wilders Book</h1>
@@ -33,7 +65,7 @@ const Home: NextPage = () => {
           <p>&copy; 2022 Wild Code School</p>
         </div>
       </footer>
-    </div>
+    </ApolloProvider>
   );
 };
 

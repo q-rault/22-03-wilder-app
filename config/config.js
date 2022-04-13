@@ -4,8 +4,7 @@ const config = {
     port: 3000,
   },
   api: {
-    host: "localhost",
-    port: 3001,
+    url: "localhost:4000/",
     wilder: "api/wilder/",
   },
   db: {
